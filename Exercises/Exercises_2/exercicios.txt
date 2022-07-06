@@ -1,0 +1,5 @@
+1.a) Os resultados obtidos são diferentes do esperado, sendo, de um modo geral, inferiores. Tal acontece uma vez que ocorre um datarace no acesso à variável dot, fazendo com que existam múltiplo acessos simultâneos à mesma, provocando a perda de algumas somas de valores (de realçar que, tal como esperado, quanto maior o número de threads, maior o erro no valor final). Uma possível correção passará pelo uso das cláusula lastprivate ou reduction, abrigando a variável dot.
+
+1.b) Os resultados obtidos nas versões sequencial e paralela são similares, o que prova a correção do programa paralelizado.
+
+2) Para uma versão paralelizada do algoritmo, recorrendo ao uso da cláusula reduction, verificamos que há uma melhoria substancial aquando do uso de 2 threads ao invês da versão sequencial. No entanto, ao utilizar 3 threads, os tempos obtidos, apesar de melhores que os da versão sequencial, já são piores que os da versão com 2 threads. Com o uso de 4 threads ou mais, os tempos obtidos acabam por aumentar um pouco mais ainda, sendo, no entanto, sempre similares.

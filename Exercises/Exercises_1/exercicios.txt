@@ -1,0 +1,42 @@
+1.1. A ordem do output não é sempre a mesma, devido ao escalonamento das threads.
+
+1.2. A ordem do output de cada thread individualmente é sempre a mesma, desde que seja executado sequencialemnte.
+
+1.3. Não ocorre divisão do ciclo entre threads.
+
+2.1. As iterações do ciclo são divididas igualmente pelas duas threads. A master thread (thread 0) executa as 50 primeiras iterações, enquanto que a outra thread (thread 1) executa as restantes 50 iterações. Esta divisão é sempre igual.
+
+2.2. Apenas a master thread executa todas as iterações, em todos os casos.
+
+2.3. Apenas uma das duas threads executa todas as iterações, sendo que a thread que executa varia de caso para caso.
+
+2.4. A ordem do output é sempre a mesma, sendo que as threads executam sequencialmente: as threads executam pela ordem que sao criadas (primeiro thread 0, depois thread 1), correndo cada uma todas as iterações, de forma sequencial.
+
+3.1. A ordem do output não é sempre a mesma, pois a primeira thread a executar uma iteração varia (tanto pode ser a thread 0, como a thread 1). O programa é executado de forma sequencial pelas duas threads, que correm todas as iterações, sendo que após uma delas acabar de correr uma iteração, imprime o seu resultado, ficando à espera que a outra thread acabe de executar a respetiva iteração, antes de passar para a próxima iteração.
+
+3.2. A ordem do output é sempre a mesma (não sei bem porque tho) ????
+
+4.1. (schedule(static))
+A thread0 (master thread) recebe as 50 primeiras iterações, enquanto que a thread1 recebe as segundas 50 iterações. A divisão e ordem de execução das iterações é sempre igual para as threads, havendo apenas variações relativas à ordem em que as iterações são apresentadas.
+
+	 (schedule(static, 10))
+As iterações são divididas em blocos de 10, que são distribuídos pelas threads (blocos "pares" - 0 a 9, 20 a 29, ... - vão para a thread0, blocos "ímpares" vão para a thread1). A divisão das iterações é constante, variando apenas a execução das mesmas consoante a velocidade de resposta das threads para a execução dos diversos blocos.
+
+4.2. (schedule(dynamic))
+As iterações são distribuídas consoante a disponibilidade das threads (sempre que uma thread está livre, é lhe atribuída uma iteração). A divisão das iterações varia consoante a disponibilidade das threads em cada execução do programa.
+
+	 (schedule(dynamic, 10))
+As iterações são divididas em blocos de 10, que serão distribuídos pelas threads consoante a sua disponibilidade (sempre que uma thread está livre, é lhe atribuída um bloco). A divisão das iterações varia consoante a disponibilidade das threads em cada execução do programa.
+
+4.3. (schedule(guided))
+As iterações são distribuídas de forma igual pelas threads (50 para cada uma). No entanto, assim que há uma thread que acaba de executar todas as suas iterações, esta "auxilía" a outra, correndo algumas das iterações da thread mais atrasada. A divisão das iterações é por isso inconstante, pois varia consoante a velocidade a que cada thread executa as iterações que lhe são inicialmente atribuídas.
+
+5.0. Uma vez que não se usa nenhuma cláusula restritiva, w é partilhado, fazendo com que o valor de w seja 10 para a thread0 e 60 para a thread1. Relativamente ao último valor de w dentro do loop, este acaba por ser 109, uma vez que apesar das iterações serem executadas de forma um pouco aleatória por vezes, os incrementos são constantes. Quanto ao w final, este poderá nem sempre ser 110, caso ocorra algum datarace no incremento do w.
+
+5.1. Devido ao uso da cláusula private, o w não é inicializado, fazendo com que o valor inicial de w seja 0 para ambas a threads. Uma vez que tal ocorre, o valor final de w em ambas as threads será 49. Devido também a isto, o valor final fora do loop será 10, uma vez que o w inicial nunca foi alterado.
+
+5.2. Devido ao uso da cláusula firstprivate, o w é inicializado com o valor inicial para ambas as threads, fazendo com que o valor inicial de w seja 10 em ambos os casos. Uma vez que tal ocorre, o valor final de w em ambas as threads será 59. No entanto, o valor final fora do loop será na mesma 10, uma vez que a cláusula firstprivate gera cópias de w, uma para cada thread, que são descartadas no fim.
+
+5.3. Devido ao uso da cláusula lastprivate, o w não é inicializado, fazendo com que o valor inicial de w seja 0 para ambas a threads. Uma vez que tal ocorre, o valor final de w em ambas as threads será 49. Devido ao uso da cláusula lastprivate, o valor final de w fora do ciclo será igual ao valor da última iteração (do ciclo, não executada, ou seja a iteração para i = 99), assim sendo, w será 50 (não esquecer o último incremento realizado no loop).
+
+5.4. Devido ao uso da cláusula reduction, o w não é inicializado, fazendo com que o valor inicial de w seja 0 para ambas a threads. Uma vez que tal ocorre, o valor final de w em ambas as threads será 49. No entanto, esta cláusula faz a soma de todas as cópias de w (2 neste caso, uma por cada thread), bem como soma o valor inicial de w, fazendo com que o valor final de w fora do loop seja o esperado.

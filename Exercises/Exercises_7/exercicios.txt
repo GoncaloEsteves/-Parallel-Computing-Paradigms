@@ -1,0 +1,10 @@
+1-a) Podemos afirmar que o tempo de computação não se encontra bem distribuído pelos processos,
+	 sendo que o processo 0 gasta aproximadamente o dobro do tempo de computação que os restantes.
+	 Isto influencia a escalabilidade do programa, uma vez que, desta forma,
+	 os processos estarão à espera uns dos outros durante maiores intervalos de tempo.
+  b) Sim, redistribuindo os números primos até 1000 pelos processos, atribuindo cerca de 1/6 dos mesmos
+     pelo primeiro processo, 2/6 pelo segundo e 3/6 pelo terceiro.
+
+2-a) De um modo geral, podemos dizer que o tempo dispendido, por processo, em comunicações varia entre metade
+	 e um quarto do tempo total por processo.
+  b) 
