@@ -1,2 +1,2 @@
 # Parallel-Computing-Paradigms
-Exercises and Work Assignment developed in virtue of the subject.
+Exercises and Work Assignments developed in virtue of the subject.
